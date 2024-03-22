@@ -24,6 +24,7 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_14.2.app
       - name: Build and Test
         run: |
+          xcrun simctl list devices available
           xcodebuild build-for-testing -scheme SwiftySCloud -project SwiftySCloud.xcodeproj -destination "platform=iOS Simulator,name=iPhone 11,OS=latest"
           xcodebuild test -scheme SwiftySCloud -project SwiftySCloud.xcodeproj -destination "platform=iOS Simulator,name=iPhone 11,OS=16.2"
       - name: Build
