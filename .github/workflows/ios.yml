@@ -20,14 +20,16 @@ jobs:
           default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
           echo $default | cat >default
           echo Using default scheme: $default
-      - name: Prepare iOS 16.2 simulator
+      - name: Set up Xcode
+        uses: actions/setup-xcode@v2
+        with:
+          xcode-version: '14.2'
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_14.2.app
+      - name: Build and Test
         run: |
-          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-          xcrun simctl list runtimes
-          xcrun simctl list devices 16.2
-          xcrun simctl list devices available
-
-        
+          xcodebuild build-for-testing -scheme SwiftySCloud -project SwiftySCloud.xcodeproj -destination "platform=iOS Simulator,name=iPhone 11,OS=16.2"
+          xcodebuild test -scheme SwiftySCloud -project SwiftySCloud.xcodeproj -destination "platform=iOS Simulator,name=iPhone 11,OS=16.2"
       - name: Build
         env:
           scheme: ${{ 'default' }}
