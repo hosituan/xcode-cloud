@@ -20,13 +20,13 @@ jobs:
           default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
           echo $default | cat >default
           echo Using default scheme: $default
-      - name: Prepare iOS 12 simulator
+      - name: Prepare iOS 16.2 simulator
         run: |
           sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
           sudo ln -s /Applications/Xcode_15.3.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 12.4.simruntime
           xcrun simctl list runtimes
-          xcrun simctl create custom-test-device "iPad Pro (9.7-inch)" "com.apple.CoreSimulator.SimRuntime.iOS-12-4"
-          xcrun simctl list devices 12.4
+          xcrun simctl create custom-test-device "iPhone iOS 16.2" "com.apple.CoreSimulator.SimRuntime.iOS-16-2"
+          xcrun simctl list devices 16.2
       - name: Build
         env:
           scheme: ${{ 'default' }}
